@@ -1,10 +1,17 @@
 {
   "name": "@audio/reverb-shimmer",
-  "version": "0.0.0",
-  "description": "Shimmer reverb — pitch-shifted (+12) regeneration in the feedback path (Valhalla Shimmer class)",
+  "version": "1.0.0",
+  "description": "Shimmer reverb — octave-up pitch-shifted feedback tail (Valhalla/Eno-Lanois class)",
   "type": "module",
   "sideEffects": false,
-  "private": true,
+  "main": "shimmer.js",
+  "exports": {
+    ".": "./shimmer.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "shimmer.js"
+  ],
   "keywords": [
     "audio",
     "dsp",
@@ -15,5 +22,8 @@
   "author": "Dmitry Iv. <dfcreative@gmail.com>",
   "engines": {
     "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

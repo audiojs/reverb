@@ -52,7 +52,7 @@ test('reverb — decays over time', () => {
 // ═══════════════════════════════════════════════════════════════════════════
 
 
-import { freeverb, dattorro, convolve } from './index.js'
+import { freeverb, dattorro, convolve, fdn, spring, shimmer } from './index.js'
 
 function tailEnergy (d, fromSec, fs = 44100) {
 	let s = 0
@@ -115,4 +115,62 @@ test('convolve — delta IR is identity, delayed delta shifts, mix blends', () =
 	let late = new Float32Array(101); late[100] = 1
 	convolve(e, { ir: late })
 	for (let i = 200; i < 4000; i += 37) assert.ok(Math.abs(e[i] - ref[i - 100]) < 1e-6, 'shifted by 100')
+})
+
+function goertzel (d, freq, sr = 44100, from = 0, to = d.length) {
+	let w = 2 * Math.PI * freq / sr, cw = Math.cos(w)
+	let s1 = 0, s2 = 0
+	for (let i = from; i < to; i++) { let s0 = d[i] + 2 * cw * s1 - s2; s2 = s1; s1 = s0 }
+	return Math.sqrt(Math.max(0, s1 * s1 + s2 * s2 - 2 * cw * s1 * s2)) / (to - from)
+}
+
+test('fdn — decaying tail, decay control, stereo decorrelation, finite', () => {
+	let a = impulse(88200), b = impulse(88200)
+	fdn(a, { decay: 0.3, mix: 1 }); fdn(b, { decay: 0.9, mix: 1 })
+	assert.ok(a.every(isFinite) && b.every(isFinite))
+	assert.ok(tailEnergy(b, 0.8) > tailEnergy(a, 0.8) * 5, 'decay extends tail')
+	let L = impulse(44100), R = impulse(44100)
+	fdn([L, R], { mix: 1 })
+	let diff = 0
+	for (let i = 0; i < L.length; i++) diff = Math.max(diff, Math.abs(L[i] - R[i]))
+	assert.ok(diff > 1e-4, 'stereo decorrelated')
+})
+
+test('spring — tail, decay control, mix=0 passthrough, finite', () => {
+	let d = impulse(44100)
+	let ref = Float64Array.from(d)
+	spring(d, { mix: 0 })
+	assert.deepEqual(Array.from(d.slice(0, 64)), Array.from(ref.slice(0, 64)))
+	let a = impulse(88200), b = impulse(88200)
+	spring(a, { decay: 0.2, mix: 1 }); spring(b, { decay: 0.9, mix: 1 })
+	assert.ok(a.every(isFinite) && b.every(isFinite))
+	assert.ok(tailEnergy(b, 0.5) > tailEnergy(a, 0.5), 'decay extends tail')
+	assert.ok(tailEnergy(b, 0.2) > 0, 'has tail')
+})
+
+test('shimmer — octave-up content appears in the tail', () => {
+	let n = 88200
+	let mk = () => { let d = new Float32Array(n); for (let i = 0; i < 22050; i++) d[i] = 0.5 * Math.sin(2 * Math.PI * 440 * i / 44100); return d }
+	let dry = mk(), wet = mk()
+	shimmer(dry, { shimmer: 0, mix: 1 })
+	shimmer(wet, { shimmer: 0.9, mix: 1 })
+	assert.ok(wet.every(isFinite))
+	// measure 880 Hz in the tail after the source stops
+	let e880wet = goertzel(wet, 880, 44100, 44100, n)
+	let e880dry = goertzel(dry, 880, 44100, 44100, n)
+	assert.ok(e880wet > e880dry * 3, 'octave-up energy in shimmer tail (' + (e880wet / (e880dry + 1e-12)).toFixed(1) + '×)')
+})
+
+test('convolution — partitioned FFT path matches direct within 1e-6', () => {
+	let n = 44100
+	let x = new Float32Array(n)
+	for (let i = 0; i < n; i++) x[i] = 0.4 * Math.sin(2 * Math.PI * 440 * i / 44100) + 0.2 * Math.sin(2 * Math.PI * 31 * i / 441)
+	let ir = new Float32Array(5000)
+	for (let i = 0; i < ir.length; i++) ir[i] = Math.sin(i * 0.7) * Math.exp(-i / 900) * (i % 7 ? 0.3 : 1)
+	let a = Float32Array.from(x), b = Float32Array.from(x)
+	convolve(a, { ir, method: 'direct' })
+	convolve(b, { ir, method: 'fft' })
+	let err = 0
+	for (let i = 0; i < n; i++) err = Math.max(err, Math.abs(a[i] - b[i]))
+	assert.ok(err < 1e-6, 'max diff ' + err.toExponential(1))
 })

@@ -21,7 +21,10 @@
     "publish:all": "npm publish --workspaces && npm publish"
   },
   "dependencies": {
-    "@audio/reverb-schroeder": "^1.0.0"
+    "@audio/reverb-schroeder": "^1.0.0",
+    "@audio/reverb-freeverb": "^1.0.0",
+    "@audio/reverb-dattorro": "^1.0.0",
+    "@audio/reverb-convolution": "^1.0.0"
   },
   "keywords": [
     "audio",

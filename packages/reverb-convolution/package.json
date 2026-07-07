@@ -1,10 +1,17 @@
 {
   "name": "@audio/reverb-convolution",
-  "version": "0.0.0",
-  "description": "Convolution reverb — FFT convolution with impulse responses (partitioned for streaming)",
+  "version": "1.0.0",
+  "description": "Convolution reverb — impulse-response convolution (rooms, plates, cabinets)",
   "type": "module",
   "sideEffects": false,
-  "private": true,
+  "main": "convolution.js",
+  "exports": {
+    ".": "./convolution.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "convolution.js"
+  ],
   "keywords": [
     "audio",
     "dsp",
@@ -15,5 +22,8 @@
   "author": "Dmitry Iv. <dfcreative@gmail.com>",
   "engines": {
     "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

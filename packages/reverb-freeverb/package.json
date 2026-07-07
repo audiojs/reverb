@@ -1,10 +1,17 @@
 {
   "name": "@audio/reverb-freeverb",
-  "version": "0.0.0",
-  "description": "Freeverb — Schroeder-Moorer 8-comb + 4-allpass stereo reverb (Jezar public-domain tuning)",
+  "version": "1.0.0",
+  "description": "Freeverb — Schroeder-Moorer 8-comb + 4-allpass reverb, Jezar public-domain tuning, stereo spread",
   "type": "module",
   "sideEffects": false,
-  "private": true,
+  "main": "freeverb.js",
+  "exports": {
+    ".": "./freeverb.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "freeverb.js"
+  ],
   "keywords": [
     "audio",
     "dsp",
@@ -15,5 +22,8 @@
   "author": "Dmitry Iv. <dfcreative@gmail.com>",
   "engines": {
     "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

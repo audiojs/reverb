@@ -1,6 +1,6 @@
 // Dattorro plate reverb — input diffusion (4 allpasses) into a figure-eight tank of two
 // cross-coupled branches (allpass → delay → damping → decay → allpass → delay).
-// Structure, delay lengths and output taps from Dattorro, "Effect Design Part 1:
+// Modulation omitted (static tank). Structure, delay lengths and output taps from Dattorro, "Effect Design Part 1:
 // Reverberator and Other Filters", JAES 45(9), 1997 (reference rate 29761 Hz, scaled to fs).
 
 const REF = 29761

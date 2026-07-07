@@ -124,16 +124,34 @@ function goertzel (d, freq, sr = 44100, from = 0, to = d.length) {
 	return Math.sqrt(Math.max(0, s1 * s1 + s2 * s2 - 2 * cw * s1 * s2)) / (to - from)
 }
 
-test('fdn — decaying tail, decay control, stereo decorrelation, finite', () => {
-	let a = impulse(88200), b = impulse(88200)
-	fdn(a, { decay: 0.3, mix: 1 }); fdn(b, { decay: 0.9, mix: 1 })
-	assert.ok(a.every(isFinite) && b.every(isFinite))
-	assert.ok(tailEnergy(b, 0.8) > tailEnergy(a, 0.8) * 5, 'decay extends tail')
+test('fdn — measured T60 (Schroeder EDC) matches configured within 30%', () => {
+	let fs2 = 44100
+	for (let T60 of [0.5, 1.5]) {
+		let d = impulse(Math.round(fs2 * (T60 + 1)))
+		fdn(d, { t60: T60, damping: 0, mix: 1, fs: fs2 })
+		assert.ok(d.every(isFinite))
+		// Schroeder backward-integrated energy decay curve
+		let edc = new Float64Array(d.length)
+		let acc = 0
+		for (let i = d.length - 1; i >= 0; i--) { acc += d[i] * d[i]; edc[i] = acc }
+		let dbAt = tSec => 10 * Math.log10(edc[Math.round(tSec * fs2)] / edc[0])
+		let t0 = 0.1 * T60, t1 = 0.6 * T60
+		let slope = (dbAt(t1) - dbAt(t0)) / (t1 - t0) // dB per second
+		let measured = -60 / slope
+		assert.ok(Math.abs(measured - T60) / T60 < 0.3, 'T60 ' + T60 + 's measured ' + measured.toFixed(2) + 's')
+	}
+})
+
+test('fdn — stereo decorrelation, decay control, finite', () => {
 	let L = impulse(44100), R = impulse(44100)
 	fdn([L, R], { mix: 1 })
+	assert.ok(L.every(isFinite) && R.every(isFinite))
 	let diff = 0
 	for (let i = 0; i < L.length; i++) diff = Math.max(diff, Math.abs(L[i] - R[i]))
-	assert.ok(diff > 1e-4, 'stereo decorrelated')
+	assert.ok(diff > 1e-4, 'L differs from R')
+	let a = impulse(88200), b = impulse(88200)
+	fdn(a, { decay: 0.2, mix: 1 }); fdn(b, { decay: 0.9, mix: 1 })
+	assert.ok(tailEnergy(b, 0.8) > tailEnergy(a, 0.8) * 5, 'decay extends tail')
 })
 
 test('spring — tail, decay control, mix=0 passthrough, finite', () => {

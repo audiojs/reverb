@@ -1,0 +1,19 @@
+{
+  "name": "@audio/reverb-dattorro",
+  "version": "0.0.0",
+  "description": "Dattorro plate reverb — input diffusers + figure-eight tank (Dattorro, JAES 1997)",
+  "type": "module",
+  "sideEffects": false,
+  "private": true,
+  "keywords": [
+    "audio",
+    "dsp",
+    "reverb",
+    "dattorro"
+  ],
+  "license": "MIT",
+  "author": "Dmitry Iv. <dfcreative@gmail.com>",
+  "engines": {
+    "node": ">=18"
+  }
+}

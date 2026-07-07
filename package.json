@@ -1,0 +1,45 @@
+{
+  "name": "@audio/reverb",
+  "version": "1.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "description": "Reverberation — umbrella for @audio/reverb-* atoms (Schroeder, Freeverb, Dattorro plate, FDN, convolution, spring, shimmer)",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js"
+  ],
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "node test.js",
+    "test:all": "npm test --workspaces --if-present && npm test",
+    "publish:all": "npm publish --workspaces && npm publish"
+  },
+  "dependencies": {
+    "@audio/reverb-schroeder": "^1.0.0"
+  },
+  "keywords": [
+    "audio",
+    "dsp",
+    "reverb",
+    "schroeder",
+    "freeverb",
+    "dattorro",
+    "plate",
+    "fdn",
+    "convolution"
+  ],
+  "license": "MIT",
+  "author": "Dmitry Iv. <dfcreative@gmail.com>",
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

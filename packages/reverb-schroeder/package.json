@@ -1,0 +1,29 @@
+{
+  "name": "@audio/reverb-schroeder",
+  "version": "1.0.0",
+  "description": "Schroeder reverb — 4 parallel feedback combs with LP damping + 2 series allpass diffusers",
+  "type": "module",
+  "sideEffects": false,
+  "main": "schroeder.js",
+  "exports": {
+    ".": "./schroeder.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "schroeder.js"
+  ],
+  "keywords": [
+    "audio",
+    "dsp",
+    "reverb",
+    "schroeder"
+  ],
+  "license": "MIT",
+  "author": "Dmitry Iv. <dfcreative@gmail.com>",
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

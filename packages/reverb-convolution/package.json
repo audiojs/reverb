@@ -1,0 +1,19 @@
+{
+  "name": "@audio/reverb-convolution",
+  "version": "0.0.0",
+  "description": "Convolution reverb — FFT convolution with impulse responses (partitioned for streaming)",
+  "type": "module",
+  "sideEffects": false,
+  "private": true,
+  "keywords": [
+    "audio",
+    "dsp",
+    "reverb",
+    "convolution"
+  ],
+  "license": "MIT",
+  "author": "Dmitry Iv. <dfcreative@gmail.com>",
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@audio/reverb-spring",
+  "version": "0.0.0",
+  "description": "Spring reverb model — dispersive allpass chains (chirpy spring character)",
+  "type": "module",
+  "sideEffects": false,
+  "private": true,
+  "keywords": [
+    "audio",
+    "dsp",
+    "reverb",
+    "spring"
+  ],
+  "license": "MIT",
+  "author": "Dmitry Iv. <dfcreative@gmail.com>",
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -8,7 +8,7 @@ const SPREAD = 23
 const FIXED_GAIN = 0.015
 const SCALE_ROOM = 0.28, OFFSET_ROOM = 0.7, SCALE_DAMP = 0.4
 
-function channelState (fs, offset) {
+export function channelState (fs, offset) {
 	let s = fs / 44100
 	return {
 		combs: COMBS.map(d => ({ buf: new Float64Array(Math.max(1, Math.round((d + offset) * s))), i: 0, store: 0 })),
@@ -16,7 +16,7 @@ function channelState (fs, offset) {
 	}
 }
 
-function processChannel (data, st, feedback, damp, mix) {
+export function processChannel (data, st, feedback, damp, mix) {
 	for (let n = 0; n < data.length; n++) {
 		let input = data[n] * FIXED_GAIN
 		let out = 0

@@ -1,16 +1,18 @@
 {
   "name": "@audio/reverb-schroeder",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Schroeder reverb — 4 parallel feedback combs with LP damping + 2 series allpass diffusers",
   "type": "module",
   "sideEffects": false,
   "main": "schroeder.js",
   "exports": {
     ".": "./schroeder.js",
+    "./atom": "./atom.js",
     "./package.json": "./package.json"
   },
   "files": [
-    "schroeder.js"
+    "schroeder.js",
+    "atom.js"
   ],
   "keywords": [
     "audio",
@@ -25,5 +27,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "atom": "./atom.js"
 }

@@ -1,4 +1,4 @@
-// audio-module manifest — Freeverb with persistent per-channel comb/allpass state;
+// atom manifest — Freeverb with persistent per-channel comb/allpass state;
 // room/damp/mix are live (Freeverb reads them per sample anyway).
 
 import { channelState, processChannel } from './freeverb.js'

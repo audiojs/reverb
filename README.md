@@ -5,9 +5,9 @@
 | Package | Status | What |
 |---|---|---|
 | `@audio/reverb-schroeder` | ✔ | 4 combs + 2 allpass (extracted from audio-effect) |
-| `@audio/reverb-freeverb` | planned | Schroeder-Moorer 8+4 stereo |
-| `@audio/reverb-dattorro` | planned | plate — figure-eight tank (JAES 1997) |
-| `@audio/reverb-convolution` | planned | IR convolution (cabinet sims share the engine — see @audio/amp) |
-| `@audio/reverb-fdn` | planned | feedback delay network |
-| `@audio/reverb-spring` | planned | spring model |
-| `@audio/reverb-shimmer` | planned | pitch-shifted feedback (uses @audio/shift) |
+| `@audio/reverb-freeverb` | ✔ | Schroeder-Moorer 8+4 stereo |
+| `@audio/reverb-dattorro` | ✔ | plate — figure-eight tank (JAES 1997) |
+| `@audio/reverb-convolution` | ✔ | IR convolution (cabinet sims share the engine — see @audio/amp) |
+| `@audio/reverb-fdn` | ✔ | feedback delay network |
+| `@audio/reverb-spring` | ✔ | spring model |
+| `@audio/reverb-shimmer` | ✔ | pitch-shifted feedback — self-contained 2-head varispeed ring buffer, no dependency |

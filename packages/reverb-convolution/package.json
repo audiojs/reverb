@@ -28,5 +28,10 @@
   },
   "dependencies": {
     "fourier-transform": "^2.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/audiojs/reverb.git",
+    "directory": "packages/reverb-convolution"
   }
 }

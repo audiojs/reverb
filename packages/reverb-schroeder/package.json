@@ -1,6 +1,6 @@
 {
   "name": "@audio/reverb-schroeder",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Schroeder reverb — 4 parallel feedback combs with LP damping + 2 series allpass diffusers",
   "type": "module",
   "sideEffects": false,

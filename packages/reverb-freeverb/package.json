@@ -1,6 +1,6 @@
 {
   "name": "@audio/reverb-freeverb",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Freeverb — Schroeder-Moorer 8-comb + 4-allpass reverb, Jezar public-domain tuning, stereo spread",
   "type": "module",
   "sideEffects": false,

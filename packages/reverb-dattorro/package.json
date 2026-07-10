@@ -1,6 +1,6 @@
 {
   "name": "@audio/reverb-dattorro",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Dattorro plate reverb — input diffusers + figure-eight tank (JAES 1997 topology and taps)",
   "type": "module",
   "sideEffects": false,

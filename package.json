@@ -1,6 +1,6 @@
 {
   "name": "@audio/reverb",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "sideEffects": false,
   "description": "Reverberation — umbrella for @audio/reverb-* atoms (Schroeder, Freeverb, Dattorro plate, FDN, convolution, spring, shimmer)",

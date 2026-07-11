@@ -1,6 +1,6 @@
 {
   "name": "@audio/reverb-fdn",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "FDN reverb — 8 mutually-prime delays, O(N) Householder feedback, per-line damping (Jot topology)",
   "type": "module",
   "sideEffects": false,
@@ -16,7 +16,8 @@
   "files": [
     "fdn.js",
     "audio.js",
-    "audio.d.ts"
+    "audio.d.ts",
+    "fdn.d.ts"
   ],
   "keywords": [
     "audio",
@@ -37,5 +38,7 @@
     "type": "git",
     "url": "git+https://github.com/audiojs/reverb.git",
     "directory": "packages/reverb-fdn"
-  }
+  },
+  "funding": "https://github.com/sponsors/audiojs",
+  "types": "fdn.d.ts"
 }

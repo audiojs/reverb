@@ -1,6 +1,6 @@
 {
   "name": "@audio/reverb-convolution",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Convolution reverb — impulse-response convolution (rooms, plates, cabinets)",
   "type": "module",
   "sideEffects": false,
@@ -10,7 +10,8 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "convolution.js"
+    "convolution.js",
+    "convolution.d.ts"
   ],
   "keywords": [
     "audio",
@@ -33,5 +34,7 @@
     "type": "git",
     "url": "git+https://github.com/audiojs/reverb.git",
     "directory": "packages/reverb-convolution"
-  }
+  },
+  "funding": "https://github.com/sponsors/audiojs",
+  "types": "convolution.d.ts"
 }

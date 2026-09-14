@@ -6,11 +6,15 @@
   "description": "Reverberation — umbrella for @audio/reverb-* atoms (Schroeder, Freeverb, Dattorro plate, FDN, convolution, spring, shimmer)",
   "main": "index.js",
   "exports": {
-    ".": "./index.js",
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
     "./package.json": "./package.json"
   },
   "files": [
-    "index.js"
+    "index.js",
+    "*.d.ts"
   ],
   "workspaces": [
     "packages/*"
@@ -52,5 +56,6 @@
     "type": "git",
     "url": "git+https://github.com/audiojs/reverb.git"
   },
-  "funding": "https://github.com/sponsors/audiojs"
+  "funding": "https://github.com/sponsors/audiojs",
+  "types": "./index.d.ts"
 }

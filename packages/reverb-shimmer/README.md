@@ -20,7 +20,7 @@ shimmer(data, { shimmer: 0.9 })  // heavier octave-up content in the tail
 | Param | Default | |
 |---|---|---|
 | `decay` | `0.7` | 0..1 — comb feedback (tail length) |
-| `shimmer` | `0.5` | 0..1 — amount of octave-up signal re-injected into the feedback path |
+| `shimmer` | `0.5` | 0..1 — share of the feedback that returns an octave up; the loop gain stays below 1, so the tail always decays |
 | `damping` | `0.3` | 0..1 — high-frequency loss in the comb feedback path |
 | `mix` | `0.4` | 0..1 — wet/dry blend |
 | `fs` | `44100` | sample rate; delay/ring-buffer lengths scale to it |

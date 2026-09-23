@@ -2,7 +2,7 @@
 export interface ShimmerOptions {
   /** 0..1, comb feedback (tail length), default 0.7 */
   decay?: number
-  /** 0..1, amount of octave-up signal re-injected into the feedback path, default 0.5 */
+  /** 0..1, share of the feedback that returns an octave up (the loop gain stays below 1), default 0.5 */
   shimmer?: number
   /** 0..1, high-frequency loss in the comb feedback path, default 0.3 */
   damping?: number

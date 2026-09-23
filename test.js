@@ -173,10 +173,24 @@ test('shimmer — octave-up content appears in the tail', () => {
 	shimmer(dry, { shimmer: 0, mix: 1 })
 	shimmer(wet, { shimmer: 0.9, mix: 1 })
 	assert.ok(wet.every(isFinite))
-	// measure 880 Hz in the tail after the source stops
-	let e880wet = goertzel(wet, 880, 44100, 44100, n)
-	let e880dry = goertzel(dry, 880, 44100, 44100, n)
-	assert.ok(e880wet > e880dry * 3, 'octave-up energy in shimmer tail (' + (e880wet / (e880dry + 1e-12)).toFixed(1) + '×)')
+	// octave band (grain-smeared around 880 Hz) against the source band, in the tail after the source stops
+	let band = (d, f0, f1) => { let e = 0; for (let f = f0; f <= f1; f += 2) e += goertzel(d, f, 44100, 22050, 35280) ** 2; return e }
+	let lift = d => 10 * Math.log10(band(d, 820, 940) / band(d, 400, 480))
+	assert.ok(lift(wet) > lift(dry) + 20, `octave-up energy in shimmer tail: ${lift(wet).toFixed(1)} dB vs ${lift(dry).toFixed(1)} dB without`)
+})
+
+test('shimmer — the tail decays at any setting (feedback loop gain < 1)', () => {
+	// The octave-up return was added on top of the comb feedback: at the defaults the loop
+	// gained ~1.3 and a 2 s burst grew to 1e24 within 11 s
+	let seed = 1, rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647 * 2 - 1
+	for (let [decay, amount] of [[0.7, 0.5], [1, 1], [0, 1], [1, 0.3]]) {
+		let x = new Float32Array(44100 * 12)
+		for (let i = 0; i < 44100 * 2; i++) x[i] = 0.3 * rnd()
+		shimmer(x, { decay, shimmer: amount, mix: 1 })
+		let peakAt = s => { let m = 0; for (let i = s * 44100; i < (s + 1) * 44100; i++) m = Math.max(m, Math.abs(x[i])); return m }
+		assert.ok(peakAt(1) < 4, `decay ${decay} shimmer ${amount}: level while fed ${peakAt(1).toFixed(2)}`)
+		assert.ok(peakAt(11) < peakAt(2) * 0.1, `decay ${decay} shimmer ${amount}: tail falls ${peakAt(2).toFixed(3)} → ${peakAt(11).toFixed(4)}`)
+	}
 })
 
 test('convolution — partitioned FFT path matches direct within 1e-6', () => {

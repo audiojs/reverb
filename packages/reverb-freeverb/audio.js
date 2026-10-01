@@ -19,7 +19,8 @@ export const freeverb = (ctx) => {
 	}
 }
 freeverb.channels = 'any'
-freeverb.tail = 6
+// Unknown/automated mix keeps the wet tail; only a known dry setting removes it.
+freeverb.tail = ({ params }) => params.mix?.[0] <= 0 ? 0 : 6
 freeverb.params = {
 	room: { type: 'number', min: 0, max: 1, default: 0.5 },
 	damp: { type: 'number', min: 0, max: 1, default: 0.5 },

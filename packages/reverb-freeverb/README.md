@@ -26,6 +26,8 @@ freeverb([left, right], { room: 0.9, mix: 0.4 })  // stereo — decorrelated spr
 
 **Mutates `data` in place** and returns it — the return value is the same array/pair you passed in, not a copy. `mix: 0` is an exact passthrough (`room`/`damp` never run when nothing is mixed in). A fresh call allocates fresh comb/allpass state, so there's no state to carry across calls — reprocess the whole buffer each time.
 
+The `/audio` factory keeps per-channel state between blocks. Its `tail(ctx)` returns zero for a known dry `mix: 0`, otherwise six seconds, including an unknown/automated mix. A host planning a whole edit must not infer permanent bypass from an automation curve's initial zero.
+
 **Use when:** general-purpose room/hall reverb, the "default" choice among this family.<br>
 **Not for:** metallic plate character (use `dattorro`) or a colorless, uniform-T60 tail (use `fdn`).
 

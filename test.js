@@ -2,7 +2,17 @@ import test from 'node:test'
 import { strict as assert } from 'node:assert'
 
 import { schroeder } from './index.js'
+import { freeverb as freeverbFactory } from './packages/reverb-freeverb/audio.js'
 const fx = { reverb: schroeder }
+
+test('freeverb factory — only known dry settings remove the tail', () => {
+	for (const sampleRate of [16000, 48000, 96000]) {
+		for (const mix of [0, -1, 0.33, 1, NaN]) {
+			const tail = freeverbFactory.tail({ sampleRate, params: { mix: Float32Array.of(mix) } })
+			assert.equal(tail, mix <= 0 ? 0 : 6)
+		}
+	}
+})
 
 let { ok, equal: is } = assert
 

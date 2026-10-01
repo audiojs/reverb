@@ -23,7 +23,7 @@ export interface FreeverbOptions {
 export declare const freeverb: {
   (ctx: Ctx): Process
   channels: "any"
-  tail: 6
+  tail: (ctx: { sampleRate: number, params: Live }) => number
   params: {
     /** 0..1 (default 0.5) */
     "room": { type: "number", default: 0.5 }

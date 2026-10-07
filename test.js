@@ -216,3 +216,34 @@ test('convolution — partitioned FFT path matches direct within 1e-6', () => {
 	for (let i = 0; i < n; i++) err = Math.max(err, Math.abs(a[i] - b[i]))
 	assert.ok(err < 1e-6, 'max diff ' + err.toExponential(1))
 })
+
+import { convolver } from '@audio/reverb-convolution'
+
+test('convolver — streams with no latency, in chunks of any length, as the direct form convolves', () => {
+	// lengths about each level's edge (the head at 128, partitions of 128, 1024, 8192), chunks of random lengths
+	let seed = 1, rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647 * 2 - 1
+	for (let N of [1, 127, 128, 129, 1023, 1024, 1025, 8191, 8192, 8193, 20000]) {
+		let h = Float32Array.from({ length: N }, (_, i) => rnd() * Math.exp(-i / (N / 3 + 1)))
+		let x = Float32Array.from({ length: 30000 }, rnd)
+		let ref = Float32Array.from(x)
+		convolve(ref, { ir: h, method: 'direct' })
+		let c = convolver(h), y = new Float32Array(x.length)
+		for (let o = 0; o < x.length;) { let n = Math.min(x.length - o, 1 + Math.floor((rnd() + 1) * 700)); c.write(x.subarray(o, o + n), y.subarray(o, o + n)); o += n }
+		let err = 0, top = 0
+		for (let i = 0; i < x.length; i++) { err = Math.max(err, Math.abs(y[i] - ref[i])); top = Math.max(top, Math.abs(ref[i])) }
+		assert.ok(err / top < 1e-6, `IR of ${N}: ${(err / top).toExponential(1)} of the peak`)
+	}
+	// an impulse comes back as the IR itself, from its first sample
+	let h = Float32Array.from({ length: 10000 }, (_, i) => Math.sin(i) / (1 + i)), x = new Float32Array(12000); x[0] = 1
+	let y = convolver(h).write(x)
+	for (let i = 0; i < h.length; i++) assert.ok(Math.abs(y[i] - h[i]) < 1e-7, `sample ${i}`)
+})
+
+test('convolver — empty chunks and one sample at a time, as one chunk', () => {
+	let h = Float32Array.from({ length: 3000 }, (_, i) => Math.cos(i) / (1 + i)), x = Float32Array.from({ length: 2000 }, (_, i) => Math.sin(i * 0.3))
+	let whole = convolver(h).write(x), c = convolver(h), y = new Float32Array(x.length)
+	assert.equal(c.write(new Float32Array(0)).length, 0, 'nothing in, nothing out')
+	for (let i = 0; i < x.length; i++) { c.write(x.subarray(i, i + 1), y.subarray(i, i + 1)); if (i % 500 === 0) c.write(new Float32Array(0)) }
+	for (let i = 0; i < x.length; i++) assert.ok(Math.abs(y[i] - whole[i]) < 1e-6, `sample ${i}`)
+	assert.throws(() => convolver(new Float32Array(0)), /impulse response is required/)
+})

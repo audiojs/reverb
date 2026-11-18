@@ -3,7 +3,7 @@
   "version": "1.3.0",
   "type": "module",
   "sideEffects": false,
-  "description": "Reverberation — umbrella for @audio/reverb-* atoms (Schroeder, Freeverb, Dattorro plate, FDN, convolution, spring, shimmer)",
+  "description": "Plate, spring, convolution reverb",
   "main": "index.js",
   "exports": {
     ".": {
@@ -49,7 +49,10 @@
     "dattorro",
     "plate",
     "fdn",
-    "convolution"
+    "convolution",
+    "spring",
+    "shimmer",
+    "reverberation"
   ],
   "license": "MIT",
   "author": "Dmitry Iv. <dfcreative@gmail.com>",

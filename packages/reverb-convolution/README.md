@@ -31,6 +31,10 @@ for (let chunk of input) play(room.write(chunk))
 
 **Mutates `data` in place** and returns it. A delta IR (`[1, 0, 0, …]`) is an exact identity; a delayed delta shifts the signal by that many samples — useful sanity checks when building your own IRs.
 
+`room.write(chunk, out, length)` takes the first `length` frames of `chunk` and writes as many to `out`, so arrays sized once for the longest block serve every block with no view made per call.
+
+The `/audio` processor takes the IR as its buffer `ir`, of one channel or two. A mono IR serves every channel; a stereo IR gives channel c its channel c % 2 (left to channels 0, 2, …, right to 1, 3, …). It builds one convolver per channel with the instance, none while it runs. `predelay` (0 to 0.5 s) delays what enters the convolvers; `mix` (default 0.3) blends `x·(1 − mix) + wet·mix`, as the family's other reverbs do, and moves sample by sample along the host's 20 ms ramp, 32 frames behind it, so the output is the same however the host cuts its calls. No latency: an impulse comes back as the IR from its first frame. Its `tail(ctx)` is the IR's length plus the predelay in force. Without an IR the input passes through unchanged, a NaN included; with one, a NaN or an Infinity in is taken as 0.
+
 **Use when:** the most accurate reverb character available — real captured spaces, plates, or cabinets, at the cost of needing an IR file.<br>
 **Not for:** parametric control over decay/damping (use any of the algorithmic reverbs) or extending the tail beyond the input length automatically.
 

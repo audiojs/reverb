@@ -23,7 +23,7 @@ export interface SchroederOptions {
 export declare const schroeder: {
   (ctx: Ctx): Process
   channels: "any"
-  tail: (ctx: { sampleRate: number, params: Live }) => number
+  tail: (at: { sampleRate: number, params: Live, buffers: {} }) => number
   params: {
     /** 0..0.98 (default 0.84) */
     "decay": { type: "number", default: 0.84 }

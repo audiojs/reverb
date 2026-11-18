@@ -16,5 +16,6 @@ export default function convolve(data: Float32Array, options: ConvolutionOptions
 /** Streaming convolution with no latency: each chunk, of any length, comes back as long as it went in, wet only.
  *  The IR's head [0, 128) direct, the rest by FFT in partitions of 128, 1024 and 8192 (Gardner 1995). */
 export function convolver(ir: Float32Array | Float64Array): {
-  write(chunk: Float32Array, out?: Float32Array): Float32Array
+  /** `length`: the frames taken from the chunk's start, default all of it; arrays sized once for the longest chunk then need no view */
+  write(chunk: Float32Array, out?: Float32Array, length?: number): Float32Array
 }

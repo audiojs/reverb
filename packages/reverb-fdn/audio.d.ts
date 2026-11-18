@@ -23,8 +23,7 @@ export interface FdnOptions {
 export declare const fdn: {
   (ctx: Ctx): Process
   channels: "any"
-  streaming: false
-  tail: (ctx: { sampleRate: number, params: Live }) => number
+  tail: (at: { sampleRate: number, params: Live, buffers: {} }) => number
   params: {
     /** 0..1 (default 0.6) */
     "decay": { type: "number", default: 0.6 }

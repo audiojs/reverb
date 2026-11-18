@@ -36,7 +36,8 @@ function level (h, B, from, to) {
 
 /**
  * @param {Float32Array|Float64Array} ir — impulse response
- * @returns {{ write(chunk: Float32Array, out?: Float32Array): Float32Array }} — wet only, as long as the chunk
+ * @returns {{ write(chunk: Float32Array, out?: Float32Array, length?: number): Float32Array }} — wet only, as long as
+ *   the chunk; `length`, when given, is the frames taken from the chunk's start (arrays sized once for the longest)
  */
 export function convolver (ir) {
 	if (!ir || !ir.length) throw new RangeError('convolver: an impulse response is required')
@@ -51,7 +52,7 @@ export function convolver (ir) {
 
 	function run (L) {
 		let { B, n, H, fdl, frame, yRe, yIm, y } = L
-		frame.set(xs.subarray(t % X + X - 2 * B, t % X + X))
+		for (let i = 0, o = t % X + X - 2 * B; i < 2 * B; i++) frame[i] = xs[o + i]   // a copy, not a view: no allocation
 		fft(frame, fdl[L.at])
 		yRe.fill(0); yIm.fill(0)
 		for (let p = 0; p < n; p++) {
@@ -68,8 +69,8 @@ export function convolver (ir) {
 	}
 
 	return {
-		write (chunk, out = new Float32Array(chunk.length)) {
-			for (let i = 0, len = chunk.length; i < len;) {
+		write (chunk, out = new Float32Array(chunk.length), len = chunk.length) {
+			for (let i = 0; i < len;) {
 				// up to the next boundary of the smallest partition, where a level may run
 				let e = Math.min(len, i + HEAD - t % HEAD)
 				for (; i < e; i++, t++) {

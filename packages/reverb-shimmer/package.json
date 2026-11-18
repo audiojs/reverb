@@ -1,6 +1,6 @@
 {
   "name": "@audio/reverb-shimmer",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "Shimmer reverb — octave-up pitch-shifted feedback tail (Valhalla/Eno-Lanois class)",
   "type": "module",
   "sideEffects": false,

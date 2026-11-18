@@ -1,6 +1,6 @@
 {
   "name": "@audio/reverb-convolution",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Convolution reverb — impulse-response convolution (rooms, plates, cabinets)",
   "type": "module",
   "sideEffects": false,

@@ -31,13 +31,13 @@
     "prepublishOnly": "node ../compile/tools/tested.js"
   },
   "dependencies": {
-    "@audio/reverb-schroeder": "^1.2.0",
-    "@audio/reverb-freeverb": "^1.1.0",
-    "@audio/reverb-dattorro": "^1.2.0",
-    "@audio/reverb-convolution": "^1.2.0",
-    "@audio/reverb-fdn": "^1.2.0",
-    "@audio/reverb-spring": "^1.2.0",
-    "@audio/reverb-shimmer": "^1.2.0"
+    "@audio/reverb-schroeder": "^1.2.1",
+    "@audio/reverb-freeverb": "^1.1.1",
+    "@audio/reverb-dattorro": "^1.2.1",
+    "@audio/reverb-convolution": "^1.2.1",
+    "@audio/reverb-fdn": "^1.2.1",
+    "@audio/reverb-spring": "^1.2.1",
+    "@audio/reverb-shimmer": "^1.2.1"
   },
   "keywords": [
     "audio",

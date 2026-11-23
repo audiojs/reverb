@@ -1,6 +1,6 @@
 {
   "name": "@audio/reverb-fdn",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "FDN reverb — 8 mutually-prime delays, O(N) Householder feedback, per-line damping (Jot topology)",
   "type": "module",
   "sideEffects": false,
